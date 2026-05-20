@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPP Project Creator - Mockup (Authenticated View)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #2d3748;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+
+        .header h1 {
+            color: #2d3748;
+            font-size: 32px;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: #718096;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .auth-section {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .user-details h3 {
+            font-size: 16px;
+            margin-bottom: 2px;
+            color: #2d3748;
+        }
+
+        .user-details p {
+            font-size: 13px;
+            color: #718096;
+        }
+
+        .form-card {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            margin-bottom: 24px;
+        }
+
+        .form-section {
+            margin-bottom: 40px;
+        }
+
+        .form-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid #667eea;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-icon {
+            font-size: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #4a5568;
+            font-size: 14px;
+        }
+
+        .required {
+            color: #e53e3e;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: inherit;
+            transition: all 0.3s;
+            background: #f7fafc;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+            background: white;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+            line-height: 1.6;
+        }
+
+        .form-group.large-text textarea {
+            min-height: 180px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .hint {
+            font-size: 13px;
+            color: #718096;
+            margin-top: 6px;
+            font-style: italic;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 16px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 14px 32px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            flex: 1;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #edf2f7;
+            color: #4a5568;
+        }
+
+        .btn-secondary:hover {
+            background: #e2e8f0;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: #fc8181;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #f56565;
+            transform: translateY(-2px);
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #ebf8ff 0%, #e6fffa 100%);
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+        }
+
+        .info-box h3 {
+            color: #2c5282;
+            font-size: 16px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .info-box ul {
+            margin-left: 20px;
+            color: #2c5282;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .info-box li {
+            margin-bottom: 6px;
+        }
+
+        .mockup-banner {
+            background: #fef3c7;
+            border: 2px solid #f59e0b;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            text-align: center;
+            color: #92400e;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            body {
+                padding: 20px 10px;
+            }
+
+            .auth-section {
+                flex-direction: column;
+                gap: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="mockup-banner">
+            📸 MOCKUP - This is what the app looks like when you're authenticated (OAuth not required to view)
+        </div>
+
+        <div class="header">
+            <h1>🚀 Create New CPP Project</h1>
+            <p>Create a Jira Idea ticket in the Central Product Plan (CPP) board</p>
+        </div>
+
+        <!-- Authentication Section - AUTHENTICATED STATE -->
+        <div class="auth-section">
+            <div class="user-info">
+                <div class="user-avatar">RO</div>
+                <div class="user-details">
+                    <h3>Robert Ogley</h3>
+                    <p>robert.ogley@wise.com</p>
+                </div>
+            </div>
+            <div>
+                <button class="btn btn-danger">🚪 Logout</button>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <h3>📋 What will be created:</h3>
+            <ul>
+                <li>Jira "Idea" ticket in the Central Product Plan (CPP) project (TOCPP)</li>
+                <li>Created using your Atlassian account (proper audit trail)</li>
+                <li>All relevant fields populated for team and stakeholder review</li>
+            </ul>
+        </div>
+
+        <!-- Form -->
+        <form id="projectForm">
+            <div class="form-card">
+                <div class="form-section">
+                    <div class="section-title">
+                        <span class="section-icon">📝</span>
+                        Basic Information
+                    </div>
+
+                    <div class="form-group">
+                        <label for="projectTitle">Project Title <span class="required">*</span></label>
+                        <input type="text" id="projectTitle" placeholder="e.g., Permission Presets for Business Accounts">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="squad">Squad <span class="required">*</span></label>
+                            <select id="squad">
+                                <option value="">Select squad...</option>
+                                <option value="acquiring">Acquiring</option>
+                                <option value="business-account">Business Account</option>
+                                <option value="consumer-account">Consumer Account</option>
+                                <option value="grow">Grow</option>
+                                <option value="onboarding">Onboarding</option>
+                                <option value="receive">Receive</option>
+                                <option value="send">Send</option>
+                                <option value="spend">Spend</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="team">Team <span class="required">*</span></label>
+                            <select id="team">
+                                <option value="">Select team...</option>
+                                <option value="bam">Business Account Management (BAM)</option>
+                                <option value="bax">Business Account Experience (BAX)</option>
+                                <option value="integrations">Account Integrations & Reporting</option>
+                                <option value="onboarding">Business Onboarding</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="assignee">Project Owner Email</label>
+                            <input type="email" id="assignee" placeholder="firstname.lastname@wise.com">
+                            <div class="hint">Leave blank to assign to yourself</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="priority">Priority</label>
+                            <select id="priority">
+                                <option value="Medium">Medium</option>
+                                <option value="High">High</option>
+                                <option value="Low">Low</option>
+                                <option value="Highest">Highest</option>
+                                <option value="Lowest">Lowest</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <div class="section-title">
+                        <span class="section-icon">💡</span>
+                        Project Details
+                    </div>
+
+                    <div class="form-group large-text">
+                        <label for="problem">Problem / Context <span class="required">*</span></label>
+                        <textarea id="problem" placeholder="What problem are we solving? Why is this important?"></textarea>
+                        <div class="hint">Describe the problem or opportunity this project addresses</div>
+                    </div>
+
+                    <div class="form-group large-text">
+                        <label for="solution">Proposed Solution <span class="required">*</span></label>
+                        <textarea id="solution" placeholder="What will be done to address this?"></textarea>
+                        <div class="hint">Describe what will be built or implemented</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="impact">Expected Impact</label>
+                        <textarea id="impact" placeholder="What is the expected business impact? (revenue, volume, efficiency, etc.)"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="category">Category</label>
+                        <select id="category" multiple size="4">
+                            <option value="71913">Growth</option>
+                            <option value="71914">Scale</option>
+                            <option value="71915">Risk</option>
+                            <option value="71916">Others</option>
+                        </select>
+                        <div class="hint">Hold Cmd/Ctrl to select multiple categories</div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <div class="section-title">
+                        <span class="section-icon">📅</span>
+                        Timeline & Status
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="startDate">Start Date</label>
+                            <input type="date" id="startDate">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="releaseDate">Target Release Date</label>
+                            <input type="date" id="releaseDate">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="effort">Engineering Effort (months)</label>
+                            <input type="number" id="effort" step="0.5" min="0" placeholder="e.g., 3.5">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="newLaunch">New Launch?</label>
+                            <select id="newLaunch">
+                                <option value="">-</option>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="keyResults">Key Results / Success Metrics</label>
+                        <textarea id="keyResults" placeholder="How will we measure success? e.g., 'Increase invite completion rate from 72% to 75%'"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <div class="section-title">
+                        <span class="section-icon">🔗</span>
+                        Additional Information
+                    </div>
+
+                    <div class="form-group">
+                        <label for="relatedLinks">Related Links</label>
+                        <textarea id="relatedLinks" placeholder="Links to PRDs, designs, wikis, etc. (one per line)"></textarea>
+                        <div class="hint">Links to supporting documentation, PRDs, design files, etc.</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="labels">Labels (comma-separated)</label>
+                        <input type="text" id="labels" placeholder="e.g., compliance, MUA, groups">
+                        <div class="hint">Add tags for easier filtering</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="btn btn-primary">
+                    🚀 Create CPP Project
+                </button>
+                <button type="button" class="btn btn-secondary">
+                    👁️ Preview
+                </button>
+                <button type="reset" class="btn btn-secondary">
+                    🔄 Clear Form
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Just for demo - prevent actual submission
+        document.getElementById('projectForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('📸 MOCKUP: In the real app, this would create a Jira ticket in TOCPP!\n\nYou would see:\n✅ Success message\n🎫 Link to your new ticket (e.g., TOCPP-1234)\n\nAll fields would be populated from this form.');
+        });
+    </script>
+</body>
+</html>
