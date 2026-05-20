@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPP Project Creator with AI - Mockup</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #2d3748;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+
+        .header h1 {
+            color: #2d3748;
+            font-size: 32px;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: #718096;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .mockup-banner {
+            background: #fef3c7;
+            border: 2px solid #f59e0b;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            text-align: center;
+            color: #92400e;
+            font-weight: 600;
+        }
+
+        .mode-selector {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .mode-selector h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2d3748;
+            font-size: 24px;
+        }
+
+        .mode-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .mode-card {
+            border: 3px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            background: #f7fafc;
+        }
+
+        .mode-card:hover {
+            border-color: #667eea;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.2);
+        }
+
+        .mode-card.active {
+            border-color: #667eea;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+        }
+
+        .mode-card .icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .mode-card h3 {
+            font-size: 20px;
+            margin-bottom: 8px;
+            color: #2d3748;
+        }
+
+        .mode-card p {
+            color: #718096;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .upload-section {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            display: none;
+        }
+
+        .upload-section.active {
+            display: block;
+        }
+
+        .upload-zone {
+            border: 3px dashed #cbd5e0;
+            border-radius: 12px;
+            padding: 60px 40px;
+            text-align: center;
+            background: #f7fafc;
+            transition: all 0.3s;
+            cursor: pointer;
+            margin-bottom: 30px;
+        }
+
+        .upload-zone:hover {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .upload-zone.dragging {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .upload-zone .icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .upload-zone h3 {
+            font-size: 20px;
+            margin-bottom: 8px;
+            color: #2d3748;
+        }
+
+        .upload-zone p {
+            color: #718096;
+            margin-bottom: 16px;
+        }
+
+        .file-types {
+            font-size: 12px;
+            color: #a0aec0;
+            font-style: italic;
+        }
+
+        .paste-section {
+            margin-top: 30px;
+        }
+
+        .paste-section h3 {
+            font-size: 18px;
+            margin-bottom: 12px;
+            color: #2d3748;
+        }
+
+        .paste-area {
+            width: 100%;
+            min-height: 200px;
+            padding: 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 14px;
+            line-height: 1.6;
+            resize: vertical;
+        }
+
+        .paste-area:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+
+        .analyze-btn {
+            margin-top: 20px;
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .analyze-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+        }
+
+        .analyze-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .analyzing {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+            display: none;
+        }
+
+        .analyzing.active {
+            display: block;
+        }
+
+        .spinner {
+            border: 4px solid #f3f4f6;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .analyzing h3 {
+            font-size: 20px;
+            margin-bottom: 8px;
+            color: #2d3748;
+        }
+
+        .analyzing p {
+            color: #718096;
+            font-size: 14px;
+        }
+
+        .extraction-preview {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            display: none;
+        }
+
+        .extraction-preview.active {
+            display: block;
+        }
+
+        .extraction-preview h2 {
+            color: #2d3748;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .extraction-preview .success-icon {
+            font-size: 32px;
+        }
+
+        .extraction-preview p {
+            color: #718096;
+            margin-bottom: 24px;
+        }
+
+        .extracted-data {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #48bb78;
+            margin-bottom: 24px;
+        }
+
+        .extracted-item {
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .extracted-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .extracted-item strong {
+            display: block;
+            color: #2d3748;
+            margin-bottom: 4px;
+            font-size: 14px;
+        }
+
+        .extracted-item span {
+            color: #4a5568;
+            font-size: 14px;
+        }
+
+        .auth-section {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .user-details h3 {
+            font-size: 16px;
+            margin-bottom: 2px;
+            color: #2d3748;
+        }
+
+        .user-details p {
+            font-size: 13px;
+            color: #718096;
+        }
+
+        .form-card {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            margin-bottom: 24px;
+            display: none;
+        }
+
+        .form-card.active {
+            display: block;
+        }
+
+        .form-section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid #667eea;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #4a5568;
+            font-size: 14px;
+        }
+
+        .required {
+            color: #e53e3e;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: inherit;
+            transition: all 0.3s;
+            background: #f7fafc;
+        }
+
+        .form-group input.prefilled,
+        .form-group select.prefilled,
+        .form-group textarea.prefilled {
+            background: #f0fdf4;
+            border-color: #86efac;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+            background: white;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+            line-height: 1.6;
+        }
+
+        .form-group.large-text textarea {
+            min-height: 180px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .hint {
+            font-size: 13px;
+            color: #718096;
+            margin-top: 6px;
+            font-style: italic;
+        }
+
+        .ai-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            color: #166534;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 16px;
+            margin-top: 40px;
+        }
+
+        .btn {
+            padding: 14px 32px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            flex: 1;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #edf2f7;
+            color: #4a5568;
+        }
+
+        .btn-secondary:hover {
+            background: #e2e8f0;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: #fc8181;
+            color: white;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #ebf8ff 0%, #e6fffa 100%);
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+        }
+
+        .info-box h3 {
+            color: #2c5282;
+            font-size: 16px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .info-box ul {
+            margin-left: 20px;
+            color: #2c5282;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        @media (max-width: 768px) {
+            .mode-options {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="mockup-banner">
+            🤖 AI-ENHANCED MOCKUP - Shows concept of Claude-powered document analysis (simulation only)
+        </div>
+
+        <div class="header">
+            <h1>🚀 Create New CPP Project</h1>
+            <p>Create a Jira Idea ticket - fill manually or let AI help from your documents</p>
+        </div>
+
+        <div class="auth-section">
+            <div class="user-info">
+                <div class="user-avatar">RO</div>
+                <div class="user-details">
+                    <h3>Robert Ogley</h3>
+                    <p>robert.ogley@wise.com</p>
+                </div>
+            </div>
+            <div>
+                <button class="btn btn-danger">🚪 Logout</button>
+            </div>
+        </div>
+
+        <!-- Mode Selector -->
+        <div class="mode-selector">
+            <h2>📄 How would you like to start?</h2>
+            <div class="mode-options">
+                <div class="mode-card" onclick="selectMode('manual')">
+                    <div class="icon">📝</div>
+                    <h3>Manual Entry</h3>
+                    <p>Fill in all the project details yourself using the form</p>
+                </div>
+                <div class="mode-card active" onclick="selectMode('ai')">
+                    <div class="icon">🤖</div>
+                    <h3>Smart Import with AI</h3>
+                    <p>Upload a PRD or brief - Claude analyzes and pre-fills the form for you</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Upload Section (AI Mode) -->
+        <div class="upload-section active" id="uploadSection">
+            <h2 style="margin-bottom: 30px; color: #2d3748;">📎 Upload Your Document</h2>
+
+            <div class="upload-zone" id="uploadZone">
+                <div class="icon">📄</div>
+                <h3>Drag & drop your document here</h3>
+                <p>or click to browse</p>
+                <div class="file-types">Supports: PDF, DOCX, TXT, Google Docs, Images, Confluence exports</div>
+                <input type="file" id="fileInput" style="display: none;" accept=".pdf,.docx,.txt,.jpg,.png">
+            </div>
+
+            <div class="paste-section">
+                <h3>Or paste your document text:</h3>
+                <textarea class="paste-area" id="pasteArea" placeholder="Paste your PRD, project brief, or any relevant documentation here...
+
+Example: You can paste an entire product requirements document, project proposal, or even just bullet points about your project idea. Claude will extract the key information and structure it into the CPP format."></textarea>
+            </div>
+
+            <button class="analyze-btn" onclick="analyzeDocument()">🔍 Analyze with Claude AI</button>
+        </div>
+
+        <!-- Analyzing Animation -->
+        <div class="analyzing" id="analyzingSection">
+            <div class="spinner"></div>
+            <h3>🤖 Claude is analyzing your document...</h3>
+            <p>Extracting project details, identifying key information, and structuring data</p>
+        </div>
+
+        <!-- Extraction Preview -->
+        <div class="extraction-preview" id="extractionPreview">
+            <h2><span class="success-icon">✅</span> Document Analyzed Successfully!</h2>
+            <p>Claude extracted the following information. Review below and edit as needed:</p>
+
+            <div class="extracted-data">
+                <div class="extracted-item">
+                    <strong>Project Title</strong>
+                    <span id="extractedTitle">Permission Presets for Business Accounts</span>
+                </div>
+                <div class="extracted-item">
+                    <strong>Problem/Context</strong>
+                    <span id="extractedProblem">Business account admins currently have to manually configure individual permissions for each team member, which is time-consuming and error-prone. This leads to inconsistent access controls and support tickets.</span>
+                </div>
+                <div class="extracted-item">
+                    <strong>Proposed Solution</strong>
+                    <span id="extractedSolution">Create predefined permission templates (e.g., "Admin", "Finance", "Viewer") that can be applied with one click. Include ability to customize and save custom presets.</span>
+                </div>
+                <div class="extracted-item">
+                    <strong>Expected Impact</strong>
+                    <span id="extractedImpact">Reduce onboarding time by 80%, decrease permission-related support tickets by 60%, improve security posture through consistent access controls.</span>
+                </div>
+                <div class="extracted-item">
+                    <strong>Identified Tags</strong>
+                    <span>permissions, business-accounts, UX-improvement</span>
+                </div>
+            </div>
+
+            <button class="analyze-btn" onclick="applyToForm()">✨ Apply to Form</button>
+        </div>
+
+        <!-- Main Form -->
+        <div class="form-card" id="mainForm">
+            <div class="info-box">
+                <h3>📋 What will be created:</h3>
+                <ul>
+                    <li>Jira "Idea" ticket in the Central Product Plan (CPP) project (TOCPP)</li>
+                    <li>Created using your Atlassian account</li>
+                    <li id="aiFilledNote" style="display: none; color: #059669; font-weight: 600;">
+                        ✨ AI-filled fields are highlighted in green - review and edit as needed
+                    </li>
+                </ul>
+            </div>
+
+            <form id="projectForm">
+                <div class="form-section">
+                    <div class="section-title">
+                        <span>📝</span>
+                        Basic Information
+                    </div>
+
+                    <div class="form-group">
+                        <label for="projectTitle">Project Title <span class="required">*</span></label>
+                        <input type="text" id="projectTitle" placeholder="e.g., Permission Presets for Business Accounts">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="squad">Squad <span class="required">*</span></label>
+                            <select id="squad">
+                                <option value="">Select squad...</option>
+                                <option value="business-account">Business Account</option>
+                                <option value="acquiring">Acquiring</option>
+                                <option value="consumer-account">Consumer Account</option>
+                                <option value="grow">Grow</option>
+                                <option value="onboarding">Onboarding</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="team">Team <span class="required">*</span></label>
+                            <select id="team">
+                                <option value="">Select team...</option>
+                                <option value="bam">Business Account Management (BAM)</option>
+                                <option value="bax">Business Account Experience (BAX)</option>
+                                <option value="integrations">Account Integrations & Reporting</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="assignee">Project Owner Email</label>
+                            <input type="email" id="assignee" placeholder="firstname.lastname@wise.com">
+                            <div class="hint">Leave blank to assign to yourself</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="priority">Priority</label>
+                            <select id="priority">
+                                <option value="Medium">Medium</option>
+                                <option value="High">High</option>
+                                <option value="Low">Low</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <div class="section-title">
+                        <span>💡</span>
+                        Project Details
+                    </div>
+
+                    <div class="form-group large-text">
+                        <label for="problem">Problem / Context <span class="required">*</span></label>
+                        <textarea id="problem" placeholder="What problem are we solving? Why is this important?"></textarea>
+                        <div class="hint">Describe the problem or opportunity this project addresses</div>
+                    </div>
+
+                    <div class="form-group large-text">
+                        <label for="solution">Proposed Solution <span class="required">*</span></label>
+                        <textarea id="solution" placeholder="What will be done to address this?"></textarea>
+                        <div class="hint">Describe what will be built or implemented</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="impact">Expected Impact</label>
+                        <textarea id="impact" placeholder="What is the expected business impact?"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <div class="section-title">
+                        <span>📅</span>
+                        Timeline & Status
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="startDate">Start Date</label>
+                            <input type="date" id="startDate">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="effort">Engineering Effort (months)</label>
+                            <input type="number" id="effort" step="0.5" min="0" placeholder="e.g., 3.5">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="keyResults">Key Results / Success Metrics</label>
+                        <textarea id="keyResults" placeholder="How will we measure success?"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <div class="section-title">
+                        <span>🔗</span>
+                        Additional Information
+                    </div>
+
+                    <div class="form-group">
+                        <label for="labels">Labels (comma-separated)</label>
+                        <input type="text" id="labels" placeholder="e.g., compliance, MUA, groups">
+                        <div class="hint">Add tags for easier filtering</div>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button type="submit" class="btn btn-primary">
+                        🚀 Create CPP Project
+                    </button>
+                    <button type="reset" class="btn btn-secondary">
+                        🔄 Clear Form
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let currentMode = 'ai';
+
+        function selectMode(mode) {
+            currentMode = mode;
+            const cards = document.querySelectorAll('.mode-card');
+            cards.forEach(card => card.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+
+            const uploadSection = document.getElementById('uploadSection');
+            const mainForm = document.getElementById('mainForm');
+            const analyzingSection = document.getElementById('analyzingSection');
+            const extractionPreview = document.getElementById('extractionPreview');
+
+            if (mode === 'manual') {
+                uploadSection.classList.remove('active');
+                analyzingSection.classList.remove('active');
+                extractionPreview.classList.remove('active');
+                mainForm.classList.add('active');
+            } else {
+                uploadSection.classList.add('active');
+                analyzingSection.classList.remove('active');
+                extractionPreview.classList.remove('active');
+                mainForm.classList.remove('active');
+            }
+        }
+
+        // Upload zone interactions
+        const uploadZone = document.getElementById('uploadZone');
+        const fileInput = document.getElementById('fileInput');
+
+        uploadZone.addEventListener('click', () => fileInput.click());
+
+        uploadZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadZone.classList.add('dragging');
+        });
+
+        uploadZone.addEventListener('dragleave', () => {
+            uploadZone.classList.remove('dragging');
+        });
+
+        uploadZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadZone.classList.remove('dragging');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFile(e.target.files[0]);
+            }
+        });
+
+        function handleFile(file) {
+            document.getElementById('pasteArea').value = `[Uploaded file: ${file.name}]\n\nSimulating document content for demo purposes...`;
+        }
+
+        function analyzeDocument() {
+            const pasteArea = document.getElementById('pasteArea');
+            if (!pasteArea.value.trim()) {
+                alert('Please upload a document or paste some text first!');
+                return;
+            }
+
+            // Hide upload section
+            document.getElementById('uploadSection').classList.remove('active');
+
+            // Show analyzing animation
+            document.getElementById('analyzingSection').classList.add('active');
+
+            // Simulate AI processing
+            setTimeout(() => {
+                document.getElementById('analyzingSection').classList.remove('active');
+                document.getElementById('extractionPreview').classList.add('active');
+            }, 3000);
+        }
+
+        function applyToForm() {
+            // Hide extraction preview
+            document.getElementById('extractionPreview').classList.remove('active');
+
+            // Show main form
+            document.getElementById('mainForm').classList.add('active');
+
+            // Show AI-filled note
+            document.getElementById('aiFilledNote').style.display = 'list-item';
+
+            // Pre-fill form with extracted data
+            const fields = [
+                { id: 'projectTitle', value: document.getElementById('extractedTitle').textContent },
+                { id: 'problem', value: document.getElementById('extractedProblem').textContent },
+                { id: 'solution', value: document.getElementById('extractedSolution').textContent },
+                { id: 'impact', value: document.getElementById('extractedImpact').textContent },
+                { id: 'squad', value: 'business-account' },
+                { id: 'team', value: 'bax' },
+                { id: 'effort', value: '2.5' },
+                { id: 'labels', value: 'permissions, business-accounts, UX-improvement' }
+            ];
+
+            fields.forEach(field => {
+                const element = document.getElementById(field.id);
+                element.value = field.value;
+                element.classList.add('prefilled');
+            });
+
+            // Scroll to form
+            document.getElementById('mainForm').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Form submission
+        document.getElementById('projectForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('🤖 AI-ENHANCED MOCKUP\n\nIn the real app, this would:\n✅ Create a Jira ticket in TOCPP\n✅ All AI-extracted data included\n✅ Full audit trail showing who created it\n\nThe AI extraction saves ~5-10 minutes per project!');
+        });
+    </script>
+</body>
+</html>
